@@ -1,14 +1,15 @@
+use itertools::Itertools;
+
 fn main() {
   let lines = input();
-  let opt_entries_2 = find_entries_2(&lines);
-  if let Some((x, y)) = opt_entries_2 {
-    println!("{}", x * y);
-  }
 
-  let opt_entries_3 = find_entries_3(&lines);
-  if let Some((x, y, z)) = opt_entries_3 {
-    println!("{}", x * y * z);
-  }
+  find_entries_2(&lines)
+    .iter()
+    .for_each(|(x, y)| println!("{}", x * y));
+
+  find_entries_3(&lines)
+    .iter()
+    .for_each(|(x, y, z)| println!("{}", x * y * z));
 }
 
 fn input() -> Vec<i32> {
@@ -23,26 +24,20 @@ fn input() -> Vec<i32> {
   lines
 }
 
-fn find_entries_2(xs: &[i32]) -> Option<(i32, i32)> {
-  for (i, &x) in xs.iter().enumerate() {
-    for (j, &y) in xs.iter().enumerate() {
-      if i == j { continue; }
-      if x + y == 2020 { return Some((x, y)) }
-    }
-  }
-  None
+fn find_entries_2(xs: &[i32]) -> Vec<(i32, i32)> {
+  xs
+    .iter()
+    .tuple_combinations()
+    .filter(|&(x, y)| x + y == 2020)
+    .map(|(&x, &y)| (x, y))
+    .collect()
 }
 
-fn find_entries_3(xs: &[i32]) -> Option<(i32, i32, i32)> {
-  for (i, &x) in xs.iter().enumerate() {
-    for (j, &y) in xs.iter().enumerate() {
-      for (k, &z) in xs.iter().enumerate() {
-        if i == j { continue; }
-        if i == k { continue; }
-        if j == k { continue; }
-        if x + y + z == 2020 { return Some((x, y, z)) }
-      }
-    }
-  }
-  None
+fn find_entries_3(xs: &[i32]) -> Vec<(i32, i32, i32)> {
+  xs
+    .iter()
+    .tuple_combinations()
+    .filter(|&(x, y, z)| x + y + z == 2020)
+    .map(|(&x, &y, &z)| (x, y, z))
+    .collect()
 }
