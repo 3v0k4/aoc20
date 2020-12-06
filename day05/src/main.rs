@@ -20,24 +20,10 @@ fn seats(css: Vec<&str>) -> Vec<u32> {
 }
 
 fn seat(cs: &str) -> u32 {
-  let (r, c) = cs.split_at(7);
-  row(r) * 8 + col(c)
-}
-
-fn row(cs: &str) -> u32 {
   let bits: String = cs.chars().map(|c| {
     match c {
       'B' => '1',
       'F' => '0',
-      _   => 'X'
-    }
-  }).collect();
-  u32::from_str_radix(&bits, 2).unwrap()
-}
-
-fn col(cs: &str) -> u32 {
-  let bits: String = cs.chars().map(|c| {
-    match c {
       'R' => '1',
       'L' => '0',
       _   => 'X'
@@ -53,15 +39,5 @@ mod tests {
   #[test]
   fn seat_BFFFBBFRRR() {
     assert_eq!(seat("BFFFBBFRRR"), 567);
-  }
-
-  #[test]
-  fn row_BFFFBBF() {
-    assert_eq!(row("BFFFBBF"), 70);
-  }
-
-  #[test]
-  fn col_RRR() {
-    assert_eq!(col("RRR"), 7);
   }
 }
