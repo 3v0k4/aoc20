@@ -21,9 +21,7 @@ fn is_sum(xs: &[u64], x: u64) -> bool {
     xs
         .iter()
         .tuple_combinations()
-        .map(|(y, z)| y + z)
-        .map(|y| x == y)
-        .any(|x| x)
+        .any(|(y, z)| x == y + z)
 }
 
 fn solution_2(xs: &[u64], x: u64) -> Option<u64> {
